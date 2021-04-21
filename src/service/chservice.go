@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/ClickHouse/clickhouse-go"
 	"log"
+	"time"
 )
 
 var ChDB *sql.DB
@@ -36,7 +37,7 @@ func InsertSqlOfTracking() string {
 }
 
 //insert封装
-func InsertIntoCHExec(insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp string) {
+func InsertIntoCHExec(insertdate time.Time, trackingtype, deviceID, ipAddress string, strategyId, creativeId, timestamp int32) {
 
 	if ChDB == nil {
 		log.Printf("db no init")

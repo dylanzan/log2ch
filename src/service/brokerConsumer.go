@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"github.com/Shopify/sarama"
 	cluster "github.com/bsm/sarama-cluster"
+	"github.com/spf13/cast"
 	"log"
 	"strings"
 	"sync"
+	//"github.com/spf13/cast"
 )
 
 var (
@@ -64,7 +66,14 @@ func (BrokerConsumer) InsertDataToCH() {
 
 				values := strings.Split(string(msg.Value), ",")
 
-				InsertIntoCHExec(string(msg.Key), values[0], values[1], values[2], values[3], values[4], values[5])
+				insertDate, _ := cast.StringToDate(string(msg.Key))
+				trackingType := values[0]
+				stragetyID := cast.ToInt32(values[1])
+				creativeId := cast.ToInt32(values[2])
+				deviceId := values[3]
+				ipAddr := values[4]
+				timestamp := cast.ToInt32(values[5])
+				InsertIntoCHExec(insertDate, trackingType, deviceId, ipAddr, stragetyID, creativeId, timestamp)
 			}
 		}(pc)
 
