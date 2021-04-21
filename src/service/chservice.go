@@ -1,43 +1,50 @@
 package service
 
 import (
-	_ "github.com/ClickHouse/clickhouse-go"
-	"github.com/jmoiron/sqlx"
+	"database/sql"
+	"fmt"
+	"github.com/ClickHouse/clickhouse-go"
 	"log"
 )
 
-var ChDB *sqlx.DB
+var ChDB *sql.DB
 
 const (
-	_dbUrl = "tcp://121.5.252.185:9000?debug=true"
-	_clickhouse_tag="clickhouse"
+	_dbUrl          = "tcp://121.5.252.185:9000?debug=true"
+	_clickhouse_tag = "clickhouse"
 )
 
 //clickhouse 初始化
-func InitChDB()  {
+func InitChDB() {
 
 	var err error
+	ChDB, err = sql.Open(_clickhouse_tag, _dbUrl)
 
-	ChDB,err=sqlx.Open(_clickhouse_tag,_dbUrl)
-
-	if err!=nil{
-		log.Fatal(err)
+	if err = ChDB.Ping(); err != nil {
+		if exception, ok := err.(*clickhouse.Exception); ok {
+			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
+		} else {
+			fmt.Println(err)
+		}
+		return
 	}
 }
 
 //insert封装
-func InsertIntoCHExec(insertSqlStr string){
+func InsertIntoCHExec(insertSqlStr string) {
 
-	if ChDB==nil{
+	if ChDB == nil {
 		log.Printf("db no init")
 		return
 	}
 
-	_,err:=ChDB.Exec(insertSqlStr)
+	tx, err := ChDB.Begin()
+	stmt, err := tx.Prepare(insertSqlStr)
 
-	if err!=nil{
-		log.Printf("insert failed,err: %v \n ",err)
-		return
+	defer stmt.Close()
+
+	if err = tx.Commit(); err != nil {
+		log.Fatal(err)
 	}
 
 }

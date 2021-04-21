@@ -15,5 +15,5 @@ type TrackingLogModel struct {
 
 //tracking 日志insert sql
 func InsertSqlOfTracking(insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp string) string {
-	return fmt.Sprintf("insert into logdata.tracking_debug values(%v,%v,%v,%v,%v,%v,%v)", insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp)
+	return fmt.Sprintf("insert into fs_logdata.tracking_debug values(%v,%v,%v,%v,%v,%v,%v)", insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp)
 }
