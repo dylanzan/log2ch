@@ -4,7 +4,4 @@ import "testing"
 
 func TestInitChDB(t *testing.T) {
 
-	InitChDB()
-
-
 }

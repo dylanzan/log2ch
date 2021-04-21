@@ -4,8 +4,9 @@ import "testing"
 
 func TestBrokerConsumer_GetData(t *testing.T) {
 
-	//InitBrokerConsumer()
-	var brokerConsumer= &BrokerConsumer{}
+	InitChDB()
 
-	brokerConsumer.GetData()
+	var brokerConsumer = &BrokerConsumer{}
+
+	brokerConsumer.InsertDataToCH()
 }
