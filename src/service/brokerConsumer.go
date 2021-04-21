@@ -5,7 +5,6 @@ import (
 	"github.com/Shopify/sarama"
 	cluster "github.com/bsm/sarama-cluster"
 	"log"
-	"log2clickhouse/src/model/trackingmodel"
 	"strings"
 	"sync"
 )
@@ -65,7 +64,7 @@ func (BrokerConsumer) InsertDataToCH() {
 
 				values := strings.Split(string(msg.Value), ",")
 
-				InsertIntoCHExec(trackingmodel.InsertSqlOfTracking(string(msg.Key), values[0], values[1], values[2], values[3], values[4], values[5]))
+				InsertIntoCHExec(string(msg.Key), values[0], values[1], values[2], values[3], values[4], values[5])
 			}
 		}(pc)
 

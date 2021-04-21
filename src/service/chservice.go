@@ -30,8 +30,13 @@ func InitChDB() {
 	}
 }
 
+//tracking 日志insert sql
+func InsertSqlOfTracking() string {
+	return "insert into fs_logdata.tracking_debug values(?,?,?,?,?)"
+}
+
 //insert封装
-func InsertIntoCHExec(insertSqlStr string) {
+func InsertIntoCHExec(insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp string) {
 
 	if ChDB == nil {
 		log.Printf("db no init")
@@ -39,12 +44,19 @@ func InsertIntoCHExec(insertSqlStr string) {
 	}
 
 	tx, err := ChDB.Begin()
-	stmt, err := tx.Prepare(insertSqlStr)
+	stmt, err := tx.Prepare(InsertSqlOfTracking())
 
 	defer stmt.Close()
+
+	if _, err := stmt.Exec(
+		insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp,
+	); err != nil {
+		log.Fatal(err)
+	}
 
 	if err = tx.Commit(); err != nil {
 		log.Fatal(err)
 	}
 
+	fmt.Println("---------------------------------")
 }

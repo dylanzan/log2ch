@@ -1,7 +1,5 @@
 package trackingmodel
 
-import "fmt"
-
 //存入ch's db tracking的日志参数
 type TrackingLogModel struct {
 	InsertDate   string `json:"insert_date"`
@@ -11,9 +9,4 @@ type TrackingLogModel struct {
 	DeviceId     string `json:"device_id"`
 	IpAddress    string `json:"ip_address"`
 	Timestamp    string `json:"timestamp"`
-}
-
-//tracking 日志insert sql
-func InsertSqlOfTracking(insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp string) string {
-	return fmt.Sprintf("insert into fs_logdata.tracking_debug values(%v,%v,%v,%v,%v,%v,%v)", insertdate, trackingtype, strategyId, creativeId, deviceID, ipAddress, timestamp)
 }
