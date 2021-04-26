@@ -45,15 +45,35 @@ class ReportHandler(object):
         FINAL_WIN = 'win'
         FINAL_CST = 'cst'
 
+
         for creativeIdFromSet in range(self.cretiveIdSet):
             for dataReprot in range(self.contentQueue):
+                typeDict={}  #{type:count}
                 dataStrSplit = str.split(dataReprot, ":")
                 tracking_type = dataStrSplit[0]
                 # media_num = dataStrSplit[1]
                 creative_id = dataStrSplit[2]
                 date_statistics_str = dataStrSplit[4]
                 if creativeIdFromSet == creative_id:
-
+                    if tracking_type==FINAL_IMP:
+                        num=int(str.split(date_statistics_str,"|")[1])
+                        count=int(typeDict[FINAL_IMP])
+                        typeDict[FINAL_IMP]=count+num
+                if creativeIdFromSet == creative_id:
+                    if tracking_type==FINAL_CLK:
+                        num=int(str.split(date_statistics_str,"|")[1])
+                        count=int(typeDict[FINAL_CLK])
+                        typeDict[FINAL_CLK]=count+num
+                if creativeIdFromSet == creative_id:
+                    if tracking_type==FINAL_WIN:
+                        num=int(str.split(date_statistics_str,"|")[1])
+                        count=int(typeDict[FINAL_WIN])
+                        typeDict[FINAL_WIN]=count+num
+                if creativeIdFromSet == creative_id:
+                    if tracking_type==FINAL_CST:
+                        num=int(str.split(date_statistics_str,"|")[1])
+                        count=int(typeDict[FINAL_CST])
+                        typeDict[FINAL_CST]=count+num
 
                 '''
                 values_by_imp = []
