@@ -44,7 +44,7 @@ func (BrokerConsumer) InsertDataToCH() {
 		log.Fatal(err)
 	}
 
-	log.Println(partitionList)
+	//log.Println(partitionList)
 	for partition := range partitionList {
 
 		pc, err := consumer.ConsumePartition(_topicName, int32(partition), sarama.OffsetNewest)
