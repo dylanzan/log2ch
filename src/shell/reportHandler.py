@@ -97,6 +97,19 @@ class ReportHandler(object):
                         else:
                             typeDict[FINAL_WIN_KEY]=num
                             self.creativeTrackingDict[creative_id]=typeDict
+        for creative_id in range(self.creativeTrackingDict.keys()):
+            typeRes=dict(self.creativeTrackingDict.get(creative_id))
+            res=dict(typeRes.get(FINAL_IMP_KEY))
+            impSqlStr="[{}]".format(creative_id,",",FINAL_IMP_KEY,",",res.get(FINAL_IMP_KEY))
+            clkSqlStr="[{}]".format(creative_id,",",FINAL_IMP_KEY,",",res.get(FINAL_IMP_KEY))
+            winSqlStr="[{}]".format(creative_id,",",FINAL_IMP_KEY,",",res.get(FINAL_IMP_KEY))
+            cstSqlStr="[{}]".format(creative_id,",",FINAL_IMP_KEY,",",res.get(FINAL_IMP_KEY))
+            insertSqlStr=insert_by_day_sql_str_pro.format(impSqlStr,",",clkSqlStr,",",winSqlStr,",",cstSqlStr)
+            self.clickhouse_client.execute(insertSqlStr)
+
+
+
+
 
 
 
@@ -107,9 +120,3 @@ class ReportHandler(object):
 
     def Run(self):
         pass
-
-
-
-def if __name__ == '__main__':
-    pass
-
